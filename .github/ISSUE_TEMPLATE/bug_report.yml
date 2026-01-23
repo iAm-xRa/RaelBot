@@ -1,0 +1,57 @@
+name: "Bug Report"
+description: Report a bug or issue with RaelBot
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: What is the bug?
+      description: Describe the issue in plain language.
+      placeholder: |
+        Example:
+        When I try to close a ticket, the bot crashes with an error.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: How can we reproduce this issue?
+      placeholder: |
+        1. Open a ticket
+        2. Click the close button
+        3. Observe the error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What did you expect to happen?
+      placeholder: The ticket should close without any errors.
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: What actually happened?
+      placeholder: Bot crashes with an error message.
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional context (optional)
+      description: Add screenshots, logs, or any extra info.
+  
+  - type: markdown
+    attributes:
+      value: |
+        Please note: Pull requests for bug fixes are **not accepted**. 
+        Use this form to report bugs only.
