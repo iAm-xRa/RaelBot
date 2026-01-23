@@ -1,0 +1,92 @@
+{
+  "bot": {
+    "guild_id": "1111111111111111111",
+    "prefix": "+",
+    "status": {
+      "activity": "Tickets Open | Fast Support",
+      "type": "idle"
+    }
+  },
+
+  "roles": {
+    "admin_role_id": "1111111111111111111",
+    "support_role_id": "1111111111111111111",
+    "member_role_id": "1111111111111111111"
+  },
+
+  "tickets": {
+    "purpose1": "buy",
+    "purpose2": "support",
+    "active_tickets_category_id": "1111111111111111111",
+    "inactive_tickets_category_id": "1111111111111111111",
+    "transcripts_channel_id": "1111111111111111111",
+    "ticket_panel_channel_id": "1111111111111111111",
+    "reviews_channel_id": "1111111111111111111",
+    "max_open_by_user": "1",
+    "inactive_after": "60",
+    "inactivity_loop_interval_minutes": "20",
+    "total_tickets_limit": "30"
+  },
+
+  "embeds": {
+    "default_color": "0B1D3A",
+    "default_error_color": "ED4245",
+    "default_footer_text": "˚ ༘♡ ⋆｡˚ Powered By Rael ˚｡⋆ ♡ ༘ ˚",
+    "default_footer_icon_link": "https://media.discordapp.net/attachments/1463649423279263922/1463968023458222133/RaelBot.webp?ex=6973c1f8&is=69727078&hm=f807690acd0cebab193f747fc98bc365da96e4e9fbb66ad432d81b33fb4162f6&=&format=webp",
+    "default_thumbnail_link": "https://media.discordapp.net/attachments/1463649423279263922/1463968023458222133/RaelBot.webp?ex=6973c1f8&is=69727078&hm=f807690acd0cebab193f747fc98bc365da96e4e9fbb66ad432d81b33fb4162f6&=&format=webp"
+  },
+
+  "welcome": {
+    "welcome_channel_id": "1111111111111111111",
+    "welcome_embed_title": "***⸝⸝ Welcome to <guild-name> ! ⸝⸝***",
+    "welcome_embed_content": "- ***♡ ｡･ﾟ Please review our [rules](rules_channel_link) and check out our [info](info_channel_link).***\n\n\n- ***♡ ｡･ﾟ You can place an order [here](ticket_panel_channel_link).***\n\n\n",
+    "welcome_embed_color": "0xB76E79",
+    "welcome_embed_image_link": "https://media.discordapp.net/attachments/1463649423279263922/1463982660434133328/welcome_embed_img.png?ex=6973cf99&is=69727e19&hm=fd403912c0a563957228c05f3d30c1f2fa19b251d8b66f0158c4b8eaa9f831af&=&format=webp&quality=lossless"
+  },
+
+  "ticket_create_modal": {
+    "title": "Create Buy Ticket",
+    "first_input_label": "What are you buying from us?",
+    "first_input_placeholder": "example : 100 something",
+    "second_input_label": "Do you have any additional details?"
+  },
+
+  "review_modal": {
+    "title": "Submit your review",
+    "first_input_label": "What did you buy from us?",
+    "first_input_placeholder": "example: 200 something"
+  },
+
+  "review_embed": {
+    "field1": "`Bought`"
+  },
+
+  "purpose1_embeds": {
+    "description": "*Please wait for us to handle your ticket !*",
+    "image_link": "https://media.discordapp.net/attachments/1463649423279263922/1463983378838585587/ticket_embeds_image_deco.png?ex=6973d045&is=69727ec5&hm=9320a20227514616f59e1b5cbf42cc3eb37629ca0a2b1bb2b19146469e0de131&=&format=webp&quality=lossless",
+    "first_input_value_field_name": "*They are buying*",
+    "second_input_value_field_name": "***Additional details by the buyer***"
+  },
+
+  "purpose2_embeds": {
+    "description": "*Please wait for us to handle your ticket !*",
+    "image_link": "https://media.discordapp.net/attachments/1463649423279263922/1463983378838585587/ticket_embeds_image_deco.png?ex=6973d045&is=69727ec5&hm=9320a20227514616f59e1b5cbf42cc3eb37629ca0a2b1bb2b19146469e0de131&=&format=webp&quality=lossless"
+  },
+
+  "ticket_panel": {
+    "title": "***Create Ticket !***",
+    "description": "*Please select your ticket purpose from below then click Create Ticket !*",
+    "placeholder": "Select your ticket purpose !",
+    "purpose1_label": "Buy an item",
+    "purpose1_description": "Buy an item from us !",
+    "purpose2_label": "Request support",
+    "purpose2_description": "General support and help."
+  },
+
+  "review_panel": {
+    "title": "***Submit your review !***",
+    "description": "`You can submit your review for our services here by clicking the Submit Review button.`"
+  },
+
+  "reviews_cooldown_per_user_in_minutes": "2"
+}

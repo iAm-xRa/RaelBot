@@ -1,0 +1,1495 @@
+<!--
+RaelBot - Discord bot for ticket systems
+Copyright (C) 2026 iAm-xRa
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details:
+
+    https://www.gnu.org/licenses/gpl-3.0.txt
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RaelBot Config Editor</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --bg-primary: #0f1419;
+        --bg-secondary: #1a2332;
+        --bg-card: #243447;
+        --text-primary: #e8eaed;
+        --text-secondary: #9aa0a6;
+        --accent: #5865f2;
+        --accent-hover: #4752c4;
+        --border: #3d4a5c;
+        --success: #3ba55d;
+        --error: #ed4245;
+      }
+
+      body.light {
+        --bg-primary: #cad5e6;
+        --bg-secondary: #ffffff;
+        --bg-card: #ffffff;
+        --text-primary: #1c1e21;
+        --text-secondary: #65676b;
+        --border: #ced0d4;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        line-height: 1.6;
+        transition: all 0.3s ease;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .header {
+        background: var(--bg-secondary);
+        padding: 25px;
+        border-radius: 12px;
+        margin-bottom: 25px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .header img {
+        float: right;
+        margin-left: auto;
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 12px;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        margin-bottom: 15px;
+        color: var(--accent);
+      }
+
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .btn {
+        padding: 12px 24px;
+        border: none;
+        border-radius: 8px;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        color: white;
+      }
+
+      .btn-primary {
+        background: var(--accent);
+      }
+
+      .btn-primary:hover {
+        background: var(--accent-hover);
+        transform: translateY(-1px);
+      }
+
+      .btn-secondary {
+        background: var(--bg-card);
+        color: var(--text-primary);
+        border: 2px solid var(--border);
+      }
+
+      .btn-secondary:hover {
+        border-color: var(--accent);
+      }
+
+      .btn-success {
+        background: var(--success);
+      }
+
+      .btn-danger {
+        background: var(--error);
+      }
+
+      .content-grid {
+        display: grid;
+        grid-template-columns: 1fr 500px;
+        gap: 25px;
+        margin-bottom: 25px;
+      }
+
+      @media (max-width: 1200px) {
+        .content-grid {
+          grid-template-columns: 1fr 400px;
+        }
+      }
+
+      @media (max-width: 1024px) {
+        .content-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .card {
+        background: var(--bg-secondary);
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .card h2 {
+        font-size: 1.4rem;
+        margin-bottom: 20px;
+        color: var(--accent);
+        border-bottom: 2px solid var(--border);
+        padding-bottom: 10px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: var(--text-secondary);
+        font-size: 14px;
+      }
+
+      .form-group input,
+      .form-group textarea,
+      .form-group select {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid var(--border);
+        border-radius: 8px;
+        font-size: 15px;
+        background: var(--bg-card);
+        color: var(--text-primary);
+        transition: border-color 0.2s;
+      }
+
+      .form-group input:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+
+      .form-group textarea {
+        min-height: 100px;
+        resize: vertical;
+        font-family: monospace;
+      }
+
+      .color-input-group {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .color-input-group input[type="text"] {
+        flex: 1;
+      }
+
+      .color-picker-btn {
+        width: 50px;
+        height: 44px;
+        border: 2px solid var(--border);
+        border-radius: 8px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .color-picker-btn input[type="color"] {
+        position: absolute;
+        width: 200%;
+        height: 200%;
+        top: -50%;
+        left: -50%;
+        border: none;
+        cursor: pointer;
+      }
+
+      .json-preview {
+        background: var(--bg-card);
+        border: 2px solid var(--border);
+        border-radius: 8px;
+        padding: 20px;
+        overflow-x: auto;
+        overflow-y: auto;
+        max-height: 800px;
+        min-height: 400px;
+        position: sticky;
+        top: 20px;
+      }
+
+      .json-preview pre {
+        margin: 0;
+        font-family: "Courier New", monospace;
+        font-size: 12px;
+        line-height: 1.4;
+        color: var(--text-primary);
+        white-space: pre-wrap;
+        word-wrap: break-word;
+      }
+
+      @media (max-width: 1024px) {
+        .json-preview {
+          position: static;
+          max-height: 500px;
+        }
+      }
+
+      .import-section {
+        margin-top: 20px;
+        padding: 20px;
+        background: var(--bg-card);
+        border-radius: 8px;
+        border: 2px solid var(--border);
+      }
+
+      .import-section h3 {
+        margin-bottom: 15px;
+        color: var(--text-secondary);
+      }
+
+      .theme-toggle {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+      }
+
+      .undo-redo {
+        display: flex;
+        gap: 5px;
+      }
+
+      @media (max-width: 768px) {
+        .controls {
+          flex-direction: column;
+        }
+
+        .btn {
+          width: 100%;
+        }
+
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .card {
+          padding: 15px;
+        }
+      }
+
+      .notification {
+        position: fixed;
+        top: 80px;
+        right: 20px;
+        padding: 15px 20px;
+        background: var(--success);
+        color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        z-index: 1000;
+        animation: slideIn 0.3s ease;
+      }
+
+      @keyframes slideIn {
+        from {
+          transform: translateX(400px);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="theme-toggle">
+      <button class="btn btn-secondary" onclick="toggleTheme()">
+        🌓 Toggle Theme
+      </button>
+    </div>
+
+    <div class="container">
+      <div class="header">
+        <img
+          src="assets/RaelBot.webp"
+          alt="logoraelbot"
+        />
+        <h1>RaelBot Config Editor</h1>
+        <p style="color: var(--text-secondary)">
+          Edit your RaelBot configuration
+        </p>
+
+        <div class="controls">
+          <button class="btn btn-primary" onclick="copyJSON()">
+            📋 Copy JSON
+          </button>
+          <button class="btn btn-secondary" onclick="resetToDefaults()">
+            🔄 Reset to Defaults
+          </button>
+          <button class="btn btn-secondary" onclick="downloadJSON()">
+            💾 Download JSON
+          </button>
+          <div class="undo-redo">
+            <button class="btn btn-secondary" onclick="undo()" id="undoBtn">
+              ↶ Undo
+            </button>
+            <button class="btn btn-secondary" onclick="redo()" id="redoBtn">
+              ↷ Redo
+            </button>
+          </div>
+        </div>
+
+        <div class="import-section">
+          <h3>Import Existing Config</h3>
+          <textarea
+            id="importArea"
+            placeholder="Paste your config.json here and click Import"
+            style="
+              width: 100%;
+              min-height: 100px;
+              padding: 10px;
+              border-radius: 8px;
+              border: 2px solid var(--border);
+              background: var(--bg-primary);
+              color: var(--text-primary);
+            "
+          ></textarea>
+          <button
+            class="btn btn-success"
+            onclick="importConfig()"
+            style="margin-top: 10px"
+          >
+            Import Config
+          </button>
+        </div>
+      </div>
+
+      <div class="content-grid">
+        <div>
+          <div class="card">
+            <h2>⚙️ Bot Settings</h2>
+            <div class="form-group">
+              <label
+                >Guild ID (the Discord server ID where you plan to use the
+                bot)</label
+              >
+              <input
+                type="number"
+                id="bot.guild_id"
+                placeholder="1111111111111111111"
+                oninput="updateJSON()"
+              />
+            </div>
+            <div class="form-group">
+              <label>Command Prefix (used for bot commands)</label>
+              <input
+                type="text"
+                id="bot.prefix"
+                placeholder="+"
+                oninput="updateJSON()"
+              />
+            </div>
+            <div class="form-group">
+              <label>Status</label>
+              <input
+                type="text"
+                id="bot.status.activity"
+                placeholder="Tickets Open | Fast Support"
+                oninput="updateJSON()"
+              />
+            </div>
+            <div class="form-group">
+              <label>Status Type</label>
+              <select id="bot.status.type" onchange="updateJSON()">
+                <option value="">Select...</option>
+                <option value="online">Online</option>
+                <option value="idle">Idle</option>
+                <option value="dnd">Do Not Disturb</option>
+                <option value="invisible">Invisible</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top: 25px">
+            <h2>👥 Roles</h2>
+            <div class="form-group">
+              <label
+                >Admin Role ID (grants access to the create_embed and ping
+                commands and permission to deploy review and ticket
+                panels)</label
+              >
+              <input
+                type="number"
+                id="roles.admin_role_id"
+                placeholder="1111111111111111111"
+                oninput="updateJSON()"
+              />
+            </div>
+            <div class="form-group">
+              <label
+                >Support Role ID (grants permission to claim, view, and manage
+                tickets after claiming)</label
+              >
+              <input
+                type="number"
+                id="roles.support_role_id"
+                placeholder="1111111111111111111"
+                oninput="updateJSON()"
+              />
+            </div>
+            <div class="form-group">
+              <label
+                >Member Role ID (automatically assigned to new members upon
+                joining the guild) (leave empty to disable feature)</label
+              >
+              <input
+                type="number"
+                id="roles.member_role_id"
+                placeholder="1111111111111111111"
+                oninput="updateJSON()"
+              />
+            </div>
+          </div>
+
+          <div class="card" style="margin-top: 25px">
+            <h2>🎫 Tickets</h2>
+            <div class="form-group">
+              <label
+                >Purpose 1 (value recorded in the tickets JSON as
+                selected_purpose and displayed in the ticket panel’s selection
+                menu)</label
+              >
+              <input
+                type="text"
+                id="tickets.purpose1"
+                placeholder="buy"
+                oninput="updateJSON()"
+              />
+            </div>
+            <div class="form-group">
+              <label
+                >Purpose 2 (functions like Purpose 1, but is the second
+                selectable purpose)</label
+              >
+              <input
+                type="text"
+                id="tickets.purpose2"
+                placeholder="support"
+                oninput="updateJSON()"
+              />
+            </div>
+            <div class="form-group">
+              <label
+                >Active Tickets Category ID (category containing all active
+                tickets)</label
+              >
+              <input
+                type="number"
+                id="tickets.active_tickets_category_id"
+                placeholder="1111111111111111111"
+                oninput="updateJSON()"
+              />
+            </div>
+            <div class="form-group">
+              <label
+                >Inactive Tickets Category ID (category containing all inactive
+                tickets)</label
+              >
+              <input
+                type="number"
+                id="tickets.inactive_tickets_category_id"
+                placeholder="1111111111111111111"
+                oninput="updateJSON()"
+              />
+            </div>
+            <div class="form-group">
+              <label
+                >Transcripts Channel ID (channel for storing transcripts of
+                closed tickets)</label
+              >
+              <input
+                type="number"
+                id="tickets.transcripts_channel_id"
+                placeholder="1111111111111111111"
+                oninput="updateJSON()"
+              />
+            </div>
+            <div class="form-group">
+              <label
+                >Reviews Channel ID (channel for posting submitted
+                reviews)</label
+              >
+              <input
+                type="number"
+                id="tickets.reviews_channel_id"
+                placeholder="1111111111111111111"
+                oninput="updateJSON()"
+              />
+            </div>
+            <div class="form-group">
+              <label
+                >Max Open Tickets per User (limits how many tickets a user can
+                have open at once)</label
+              >
+              <input
+                type="number"
+                id="tickets.max_open_by_user"
+                placeholder="1"
+                oninput="updateJSON()"
+              />
+            </div>
+            <div class="form-group">
+              <label
+                >Inactive After (tickets become inactive after this many minutes
+                of no activity)</label
+              >
+              <input
+                type="number"
+                id="tickets.inactive_after"
+                placeholder="60"
+                oninput="updateJSON()"
+              />
+            </div>
+            <div class="form-group">
+              <label
+                >Inactivity Loop Interval (minutes) (how often the bot checks
+                tickets for inactivity) (best practise to keep it 20 or
+                above)</label
+              >
+              <input
+                type="number"
+                id="tickets.inactivity_loop_interval_minutes"
+                placeholder="15"
+                oninput="updateJSON()"
+              />
+            </div>
+            <div class="form-group">
+              <label
+                >Total Tickets Limit (limits the total tickets that can exist in
+                the server/guild) (best practise to keep it 40 or below)</label
+              >
+              <input
+                type="number"
+                id="tickets.total_tickets_limit"
+                placeholder="60"
+                oninput="updateJSON()"
+              />
+            </div>
+          </div>
+
+          <div class="card" style="margin-top: 25px">
+            <h2>🎨 Embeds</h2>
+            <div class="form-group">
+              <label>Default Color</label>
+              <div class="color-input-group">
+                <input
+                  type="text"
+                  id="embeds.default_color"
+                  placeholder="0B1D3A"
+                  oninput="updateJSON()"
+                />
+                <div class="color-picker-btn">
+                  <input
+                    type="color"
+                    onchange="
+                      updateColorField('embeds.default_color', this.value)
+                    "
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Default Error Color</label>
+              <div class="color-input-group">
+                <input
+                  type="text"
+                  id="embeds.default_error_color"
+                  placeholder="ED4245"
+                  oninput="updateJSON()"
+                />
+                <div class="color-picker-btn">
+                  <input
+                    type="color"
+                    onchange="
+                      updateColorField('embeds.default_error_color', this.value)
+                    "
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Default Footer Text</label>
+              <input
+                type="text"
+                id="embeds.default_footer_text"
+                placeholder="˚ ༘♡ ⋆｡˚ Powered By Rael ˚｡⋆ ♡ ༘ ˚"
+                oninput="updateJSON()"
+              />
+            </div>
+            <div class="form-group">
+              <label>Default Footer Icon Link</label>
+              <input
+                type="url"
+                id="embeds.default_footer_icon_link"
+                placeholder="https://..."
+                oninput="updateJSON()"
+              />
+            </div>
+            <div class="form-group">
+              <label>Default Thumbnail Link</label>
+              <input
+                type="url"
+                id="embeds.default_thumbnail_link"
+                placeholder="https://..."
+                oninput="updateJSON()"
+              />
+            </div>
+          </div>
+
+          <div class="card" style="margin-top: 25px">
+            <h2>👋 Welcome</h2>
+            <div class="form-group">
+              <label
+                >Welcome Channel ID (leave empty to disable sending welcome
+                embeds)</label
+              >
+              <input
+                type="number"
+                id="welcome.welcome_channel_id"
+                placeholder="1111111111111111111"
+                oninput="updateJSON()"
+              />
+            </div>
+            <div class="form-group">
+              <label>Welcome Embed Title</label>
+              <input
+                type="text"
+                id="welcome.welcome_embed_title"
+                placeholder="***⸝⸝ Welcome to <guild-name> ! ⸝⸝***"
+                oninput="updateJSON()"
+              />
+            </div>
+            <div class="form-group">
+              <label>Welcome Embed Content</label>
+              <textarea
+                id="welcome.welcome_embed_content"
+                placeholder="- ***♡ ｡･ﾟ Please review our [rules]..."
+                oninput="updateJSON()"
+              ></textarea>
+            </div>
+            <div class="form-group">
+              <label>Welcome Embed Color</label>
+              <div class="color-input-group">
+                <input
+                  type="text"
+                  id="welcome.welcome_embed_color"
+                  placeholder="0xB76E79"
+                  oninput="updateJSON()"
+                />
+                <div class="color-picker-btn">
+                  <input
+                    type="color"
+                    onchange="
+                      updateColorField(
+                        'welcome.welcome_embed_color',
+                        this.value,
+                      )
+                    "
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Welcome Embed Image Link</label>
+              <input
+                type="url"
+                id="welcome.welcome_embed_image_link"
+                placeholder="https://..."
+                oninput="updateJSON()"
+              />
+            </div>
+          </div>
+
+          <div class="card" style="margin-top: 25px">
+            <h2>
+              📝 Ticket Create Modal (shown to the user when creating a ticket
+              for Purpose 1)
+            </h2>
+            <div class="form-group">
+              <label>Title</label>
+              <input
+                type="text"
+                id="ticket_create_modal.title"
+                placeholder="Create Buy Ticket"
+                oninput="updateJSON()"
+              />
+            </div>
+            <div class="form-group">
+              <label
+                >First Input Label (the initial question users must answer when
+                creating a ticket for Purpose 1)</label
+              >
+              <input
+                type="text"
+                id="ticket_create_modal.first_input_label"
+                placeholder="What are you buying from us?"
+                oninput="updateJSON()"
+              />
+            </div>
+            <div class="form-group">
+              <label
+                >First Input Placeholder (guiding text for the first question in
+                the ticket form)</label
+              >
+              <input
+                type="text"
+                id="ticket_create_modal.first_input_placeholder"
+                placeholder="example: Item they would buy"
+                oninput="updateJSON()"
+              />
+            </div>
+            <div class="form-group">
+              <label
+                >First Input Label (the second question users can answer when
+                creating a ticket for Purpose 1)</label
+              >
+              <input
+                type="text"
+                id="ticket_create_modal.second_input_label"
+                placeholder="Do you have any additional details?"
+                oninput="updateJSON()"
+              />
+            </div>
+          </div>
+
+          <div class="card" style="margin-top: 25px">
+            <h2>⭐ Review Modal (shown to users when submitting a review)</h2>
+            <div class="form-group">
+              <label>Title</label>
+              <input
+                type="text"
+                id="review_modal.title"
+                placeholder="Submit your review"
+                oninput="updateJSON()"
+              />
+            </div>
+            <div class="form-group">
+              <label
+                >First Input Label (the initial question users must answer when
+                submitting a review)</label
+              >
+              <input
+                type="text"
+                id="review_modal.first_input_label"
+                placeholder="What did you buy from us?"
+                oninput="updateJSON()"
+              />
+            </div>
+            <div class="form-group">
+              <label
+                >First Input Placeholder (guiding text for users answering the
+                first review question)</label
+              >
+              <input
+                type="text"
+                id="review_modal.first_input_placeholder"
+                placeholder="example: Item they bought"
+                oninput="updateJSON()"
+              />
+            </div>
+          </div>
+
+          <div class="card" style="margin-top: 25px">
+            <h2>
+              📊 Review Embed (embed posted after a user submits their review)
+            </h2>
+            <div class="form-group">
+              <label
+                >Field 1 Name (title for the field showing the response to the
+                first review question)</label
+              >
+              <input
+                type="text"
+                id="review_embed.field1"
+                placeholder="`Bought`"
+                oninput="updateJSON()"
+              />
+            </div>
+          </div>
+
+          <div class="card" style="margin-top: 25px">
+            <h2>
+              🎫 Purpose 1 Embeds (embed posted in tickets created for Purpose
+              1)
+            </h2>
+            <div class="form-group">
+              <label>Description</label>
+              <textarea
+                id="purpose1_embeds.description"
+                placeholder="*Please wait for us to handle your ticket !*..."
+                oninput="updateJSON()"
+              ></textarea>
+            </div>
+            <div class="form-group">
+              <label>Image Link</label>
+              <input
+                type="url"
+                id="purpose1_embeds.image_link"
+                placeholder="https://..."
+                oninput="updateJSON()"
+              />
+            </div>
+            <div class="form-group">
+              <label
+                >First Input Value Field Name (title for the field containing
+                the answer to the first ticket modal question)</label
+              >
+              <input
+                type="text"
+                id="purpose1_embeds.first_input_value_field_name"
+                placeholder="*They are buying*"
+                oninput="updateJSON()"
+              />
+            </div>
+            <div class="form-group">
+              <label
+                >Second Input Value Field Name (title for the field containing
+                the answer to the second ticket modal question)</label
+              >
+              <input
+                type="text"
+                id="purpose1_embeds.second_input_value_field_name"
+                placeholder="***Additional details by the buyer***"
+                oninput="updateJSON()"
+              />
+            </div>
+          </div>
+
+          <div class="card" style="margin-top: 25px">
+            <h2>
+              🎫 Purpose 2 Embeds (embed posted in tickets created for Purpose
+              2)
+            </h2>
+            <div class="form-group">
+              <label>Description</label>
+              <textarea
+                id="purpose2_embeds.description"
+                placeholder="*Please wait for us to handle your ticket !*"
+                oninput="updateJSON()"
+              ></textarea>
+            </div>
+            <div class="form-group">
+              <label>Image Link</label>
+              <input
+                type="url"
+                id="purpose2_embeds.image_link"
+                placeholder="https://..."
+                oninput="updateJSON()"
+              />
+            </div>
+          </div>
+
+          <div class="card" style="margin-top: 25px">
+            <h2>
+              🎫 Ticket Panel (Where users will be able to create tickets)
+            </h2>
+            <div class="form-group">
+              <label>Title</label>
+              <input
+                type="text"
+                id="ticket_panel.title"
+                placeholder="***Create Ticket !***"
+                oninput="updateJSON()"
+              />
+            </div>
+            <div class="form-group">
+              <label>Description</label>
+              <input
+                type="text"
+                id="ticket_panel.description"
+                placeholder="*Please select your ticket purpose from below then click Create Ticket !*"
+                oninput="updateJSON()"
+              />
+            </div>
+            <div class="form-group">
+              <label>Placeholder</label>
+              <input
+                type="text"
+                id="ticket_panel.placeholder"
+                placeholder="Select your ticket purpose !"
+                oninput="updateJSON()"
+              />
+            </div>
+            <div class="form-group">
+              <label
+                >Purpose 1 Label (label representing Purpose 1 in the ticket
+                panel dropdown)</label
+              >
+              <input
+                type="text"
+                id="ticket_panel.purpose1_label"
+                placeholder="Buy an item"
+                oninput="updateJSON()"
+              />
+            </div>
+            <div class="form-group">
+              <label
+                >Purpose 1 Description (description shown for Purpose 1 in the
+                ticket panel dropdown)</label
+              >
+              <input
+                type="text"
+                id="ticket_panel.purpose1_description"
+                placeholder="Buy an item from us !"
+                oninput="updateJSON()"
+              />
+            </div>
+            <div class="form-group">
+              <label
+                >Purpose 2 Label (label representing Purpose 2 in the ticket
+                panel dropdown)</label
+              >
+              <input
+                type="text"
+                id="ticket_panel.purpose2_label"
+                placeholder="Request support"
+                oninput="updateJSON()"
+              />
+            </div>
+            <div class="form-group">
+              <label
+                >Purpose 2 Description (description shown for Purpose 2 in the
+                ticket panel dropdown)</label
+              >
+              <input
+                type="text"
+                id="ticket_panel.purpose2_description"
+                placeholder="General support and help."
+                oninput="updateJSON()"
+              />
+            </div>
+          </div>
+
+          <div class="card" style="margin-top: 25px">
+            <h2>
+              📋 Review Panel (Where users will be able to submit reviews)
+            </h2>
+            <div class="form-group">
+              <label>Title</label>
+              <input
+                type="text"
+                id="review_panel.title"
+                placeholder="***Submit your review !***"
+                oninput="updateJSON()"
+              />
+            </div>
+            <div class="form-group">
+              <label>Description</label>
+              <input
+                type="text"
+                id="review_panel.description"
+                placeholder="`You can submit your review for our services here by clicking the Submit Review button.`"
+                oninput="updateJSON()"
+              />
+            </div>
+          </div>
+
+          <div class="card" style="margin-top: 25px">
+            <h2>⏱️ Reviews Cooldown</h2>
+            <div class="form-group">
+              <label
+                >Reviews Cooldown Per User (minutes) (time a user must wait
+                between submitting reviews)</label
+              >
+              <input
+                type="number"
+                id="reviews_cooldown_per_user_in_minutes"
+                placeholder="2"
+                oninput="updateJSON()"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="card" style="position: sticky; top: 20px">
+            <h2>📄 JSON Preview</h2>
+            <div class="json-preview">
+              <pre id="jsonOutput">{}</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let history = [];
+      let historyIndex = -1;
+      const maxHistory = 50;
+
+      function getFieldValue(id) {
+        const el = document.getElementById(id);
+        if (!el) return null;
+
+        const value = el.value.trim();
+        if (value === "") return null;
+
+        return value;
+      }
+
+      function buildJSON() {
+        const config = {
+          bot: {
+            guild_id: getFieldValue("bot.guild_id"),
+            prefix: getFieldValue("bot.prefix"),
+            status: {
+              activity: getFieldValue("bot.status.activity"),
+              type: getFieldValue("bot.status.type"),
+            },
+          },
+          roles: {
+            admin_role_id: getFieldValue("roles.admin_role_id"),
+            support_role_id: getFieldValue("roles.support_role_id"),
+            member_role_id: getFieldValue("roles.member_role_id"),
+          },
+          tickets: {
+            purpose1: getFieldValue("tickets.purpose1"),
+            purpose2: getFieldValue("tickets.purpose2"),
+            active_tickets_category_id: getFieldValue(
+              "tickets.active_tickets_category_id",
+            ),
+            inactive_tickets_category_id: getFieldValue(
+              "tickets.inactive_tickets_category_id",
+            ),
+            transcripts_channel_id: getFieldValue(
+              "tickets.transcripts_channel_id",
+            ),
+            reviews_channel_id: getFieldValue("tickets.reviews_channel_id"),
+            max_open_by_user: getFieldValue("tickets.max_open_by_user"),
+            inactive_after: getFieldValue("tickets.inactive_after"),
+            inactivity_loop_interval_minutes: getFieldValue(
+              "tickets.inactivity_loop_interval_minutes",
+            ),
+            total_tickets_limit: getFieldValue("tickets.total_tickets_limit"),
+          },
+          embeds: {
+            default_color: getFieldValue("embeds.default_color"),
+            default_error_color: getFieldValue("embeds.default_error_color"),
+            default_footer_text: getFieldValue("embeds.default_footer_text"),
+            default_footer_icon_link: getFieldValue(
+              "embeds.default_footer_icon_link",
+            ),
+            default_thumbnail_link: getFieldValue(
+              "embeds.default_thumbnail_link",
+            ),
+          },
+          welcome: {
+            welcome_channel_id: getFieldValue("welcome.welcome_channel_id"),
+            welcome_embed_title: getFieldValue("welcome.welcome_embed_title"),
+            welcome_embed_content: getFieldValue(
+              "welcome.welcome_embed_content",
+            ),
+            welcome_embed_color: getFieldValue("welcome.welcome_embed_color"),
+            welcome_embed_image_link: getFieldValue(
+              "welcome.welcome_embed_image_link",
+            ),
+          },
+          ticket_create_modal: {
+            title: getFieldValue("ticket_create_modal.title"),
+            first_input_label: getFieldValue(
+              "ticket_create_modal.first_input_label",
+            ),
+            first_input_placeholder: getFieldValue(
+              "ticket_create_modal.first_input_placeholder",
+            ),
+            second_input_label: getFieldValue(
+              "ticket_create_modal.second_input_label",
+            ),
+          },
+          review_modal: {
+            title: getFieldValue("review_modal.title"),
+            first_input_label: getFieldValue("review_modal.first_input_label"),
+            first_input_placeholder: getFieldValue(
+              "review_modal.first_input_placeholder",
+            ),
+          },
+          review_embed: {
+            field1: getFieldValue("review_embed.field1"),
+          },
+          purpose1_embeds: {
+            description: getFieldValue("purpose1_embeds.description"),
+            image_link: getFieldValue("purpose1_embeds.image_link"),
+            first_input_value_field_name: getFieldValue(
+              "purpose1_embeds.first_input_value_field_name",
+            ),
+            second_input_value_field_name: getFieldValue(
+              "purpose1_embeds.second_input_value_field_name",
+            ),
+          },
+          purpose2_embeds: {
+            description: getFieldValue("purpose2_embeds.description"),
+            image_link: getFieldValue("purpose2_embeds.image_link"),
+          },
+          ticket_panel: {
+            title: getFieldValue("ticket_panel.title"),
+            description: getFieldValue("ticket_panel.description"),
+            placeholder: getFieldValue("ticket_panel.placeholder"),
+            purpose1_label: getFieldValue("ticket_panel.purpose1_label"),
+            purpose1_description: getFieldValue(
+              "ticket_panel.purpose1_description",
+            ),
+            purpose2_label: getFieldValue("ticket_panel.purpose2_label"),
+            purpose2_description: getFieldValue(
+              "ticket_panel.purpose2_description",
+            ),
+          },
+          review_panel: {
+            title: getFieldValue("review_panel.title"),
+            description: getFieldValue("review_panel.description"),
+          },
+          reviews_cooldown_per_user_in_minutes: getFieldValue(
+            "reviews_cooldown_per_user_in_minutes",
+          ),
+        };
+
+        return JSON.parse(
+          JSON.stringify(config, (k, v) => (v === null ? undefined : v)),
+        );
+      }
+
+      function updateJSON(saveHistory = true) {
+        const config = buildJSON();
+        const json = JSON.stringify(config, null, 2);
+        document.getElementById("jsonOutput").textContent = json;
+
+        if (saveHistory) {
+          addToHistory(json);
+        }
+        updateHistoryButtons();
+      }
+
+      function addToHistory(json) {
+        if (historyIndex < history.length - 1) {
+          history = history.slice(0, historyIndex + 1);
+        }
+        history.push(json);
+        if (history.length > maxHistory) {
+          history.shift();
+        } else {
+          historyIndex++;
+        }
+      }
+
+      function updateHistoryButtons() {
+        document.getElementById("undoBtn").disabled = historyIndex <= 0;
+        document.getElementById("redoBtn").disabled =
+          historyIndex >= history.length - 1;
+      }
+
+      function undo() {
+        if (historyIndex > 0) {
+          historyIndex--;
+          loadFromJSON(history[historyIndex], false);
+        }
+      }
+
+      function redo() {
+        if (historyIndex < history.length - 1) {
+          historyIndex++;
+          loadFromJSON(history[historyIndex], false);
+        }
+      }
+
+      function setFieldValue(id, value) {
+        const el = document.getElementById(id);
+        if (!el) return;
+
+        if (value === undefined || value === null) {
+          el.value = "";
+        } else {
+          el.value = value;
+        }
+      }
+
+      function loadFromJSON(json, saveHistory = true) {
+        try {
+          const config = typeof json === "string" ? JSON.parse(json) : json;
+
+          setFieldValue("bot.guild_id", config.bot?.guild_id);
+          setFieldValue("bot.prefix", config.bot?.prefix);
+          setFieldValue("bot.status.activity", config.bot?.status?.activity);
+          setFieldValue("bot.status.type", config.bot?.status?.type);
+
+          setFieldValue("roles.admin_role_id", config.roles?.admin_role_id);
+          setFieldValue("roles.support_role_id", config.roles?.support_role_id);
+          setFieldValue("roles.member_role_id", config.roles?.member_role_id);
+
+          setFieldValue("tickets.purpose1", config.tickets?.purpose1);
+          setFieldValue("tickets.purpose2", config.tickets?.purpose2);
+          setFieldValue(
+            "tickets.active_tickets_category_id",
+            config.tickets?.active_tickets_category_id,
+          );
+          setFieldValue(
+            "tickets.inactive_tickets_category_id",
+            config.tickets?.inactive_tickets_category_id,
+          );
+          setFieldValue(
+            "tickets.transcripts_channel_id",
+            config.tickets?.transcripts_channel_id,
+          );
+          setFieldValue(
+            "tickets.ticket_panel_channel_id",
+            config.tickets?.ticket_panel_channel_id,
+          );
+          setFieldValue(
+            "tickets.reviews_channel_id",
+            config.tickets?.reviews_channel_id,
+          );
+          setFieldValue(
+            "tickets.max_open_by_user",
+            config.tickets?.max_open_by_user,
+          );
+          setFieldValue(
+            "tickets.inactive_after",
+            config.tickets?.inactive_after,
+          );
+          setFieldValue(
+            "tickets.inactivity_loop_interval_minutes",
+            config.tickets?.inactivity_loop_interval_minutes,
+          );
+          setFieldValue(
+            "tickets.total_tickets_limit",
+            config.tickets?.total_tickets_limit,
+          );
+
+          setFieldValue("embeds.default_color", config.embeds?.default_color);
+          setFieldValue(
+            "embeds.default_error_color",
+            config.embeds?.default_error_color,
+          );
+          setFieldValue(
+            "embeds.default_footer_text",
+            config.embeds?.default_footer_text,
+          );
+          setFieldValue(
+            "embeds.default_footer_icon_link",
+            config.embeds?.default_footer_icon_link,
+          );
+          setFieldValue(
+            "embeds.default_thumbnail_link",
+            config.embeds?.default_thumbnail_link,
+          );
+
+          setFieldValue(
+            "welcome.welcome_channel_id",
+            config.welcome?.welcome_channel_id,
+          );
+          setFieldValue(
+            "welcome.welcome_embed_title",
+            config.welcome?.welcome_embed_title,
+          );
+          setFieldValue(
+            "welcome.welcome_embed_content",
+            config.welcome?.welcome_embed_content,
+          );
+          setFieldValue(
+            "welcome.welcome_embed_color",
+            config.welcome?.welcome_embed_color,
+          );
+          setFieldValue(
+            "welcome.welcome_embed_image_link",
+            config.welcome?.welcome_embed_image_link,
+          );
+
+          setFieldValue(
+            "ticket_create_modal.title",
+            config.ticket_create_modal?.title,
+          );
+          setFieldValue(
+            "ticket_create_modal.first_input_label",
+            config.ticket_create_modal?.first_input_label,
+          );
+          setFieldValue(
+            "ticket_create_modal.first_input_placeholder",
+            config.ticket_create_modal?.first_input_placeholder,
+          );
+          setFieldValue(
+            "ticket_create_modal.second_input_label",
+            config.ticket_create_modal?.second_input_label,
+          );
+
+          setFieldValue("review_modal.title", config.review_modal?.title);
+          setFieldValue(
+            "review_modal.first_input_label",
+            config.review_modal?.first_input_label,
+          );
+          setFieldValue(
+            "review_modal.first_input_placeholder",
+            config.review_modal?.first_input_placeholder,
+          );
+
+          setFieldValue("review_embed.field1", config.review_embed?.field1);
+
+          setFieldValue(
+            "purpose1_embeds.description",
+            config.purpose1_embeds?.description,
+          );
+          setFieldValue(
+            "purpose1_embeds.image_link",
+            config.purpose1_embeds?.image_link,
+          );
+          setFieldValue(
+            "purpose1_embeds.first_input_value_field_name",
+            config.purpose1_embeds?.first_input_value_field_name,
+          );
+          setFieldValue(
+            "purpose1_embeds.second_input_value_field_name",
+            config.purpose1_embeds?.second_input_value_field_name,
+          );
+
+          setFieldValue(
+            "purpose2_embeds.description",
+            config.purpose2_embeds?.description,
+          );
+          setFieldValue(
+            "purpose2_embeds.image_link",
+            config.purpose2_embeds?.image_link,
+          );
+
+          setFieldValue("ticket_panel.title", config.ticket_panel?.title);
+          setFieldValue(
+            "ticket_panel.description",
+            config.ticket_panel?.description,
+          );
+          setFieldValue(
+            "ticket_panel.placeholder",
+            config.ticket_panel?.placeholder,
+          );
+          setFieldValue(
+            "ticket_panel.purpose1_label",
+            config.ticket_panel?.purpose1_label,
+          );
+          setFieldValue(
+            "ticket_panel.purpose1_description",
+            config.ticket_panel?.purpose1_description,
+          );
+          setFieldValue(
+            "ticket_panel.purpose2_label",
+            config.ticket_panel?.purpose2_label,
+          );
+          setFieldValue(
+            "ticket_panel.purpose2_description",
+            config.ticket_panel?.purpose2_description,
+          );
+
+          setFieldValue("review_panel.title", config.review_panel?.title);
+          setFieldValue(
+            "review_panel.description",
+            config.review_panel?.description,
+          );
+
+          setFieldValue(
+            "reviews_cooldown_per_user_in_minutes",
+            config.reviews_cooldown_per_user_in_minutes,
+          );
+
+          updateJSON(saveHistory);
+          return true;
+        } catch (e) {
+          alert("Invalid JSON: " + e.message);
+          return false;
+        }
+      }
+
+      function importConfig() {
+        const json = document.getElementById("importArea").value;
+        if (loadFromJSON(json)) {
+          document.getElementById("importArea").value = "";
+          showNotification("Config imported successfully!");
+        }
+      }
+
+      function resetToDefaults() {
+        document.querySelectorAll("input, textarea, select").forEach((el) => {
+          el.value = "";
+        });
+        updateJSON();
+        showNotification("Reset to defaults!");
+      }
+
+      function copyJSON() {
+        const json = document.getElementById("jsonOutput").textContent;
+        navigator.clipboard.writeText(json).then(() => {
+          showNotification("JSON copied to clipboard!");
+        });
+      }
+
+      function downloadJSON() {
+        const json = document.getElementById("jsonOutput").textContent;
+        const blob = new Blob([json], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "config.json";
+        a.click();
+        URL.revokeObjectURL(url);
+        showNotification("Config downloaded!");
+      }
+
+      function toggleTheme() {
+        document.body.classList.toggle("light");
+      }
+
+      function updateColorField(fieldId, colorValue) {
+        const hex = colorValue.replace("#", "").toUpperCase();
+        document.getElementById(fieldId).value = hex;
+        updateJSON();
+      }
+
+      function showNotification(message) {
+        const notif = document.createElement("div");
+        notif.className = "notification";
+        notif.textContent = message;
+        document.body.appendChild(notif);
+        setTimeout(() => notif.remove(), 3000);
+      }
+
+      // Initialize
+      updateJSON();
+    </script>
+  </body>
+</html>
