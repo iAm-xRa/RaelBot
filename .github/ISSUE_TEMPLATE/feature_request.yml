@@ -1,0 +1,35 @@
+name: Feature Suggestion
+description: Suggest an idea or improvement for RaelBot
+title: "[Feature] "
+labels: ["feature"]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like the bot to do?
+      description: Describe the feature in plain language.
+      placeholder: |
+        Example:
+        I would like the bot to store tickets in a database instead of JSON files.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reason
+    attributes:
+      label: Why would this be useful?
+      placeholder: Helps prevent data loss on restart.
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional context (optional)
+      description: Add screenshots, examples, or extra notes here.
+
+  - type: markdown
+    attributes:
+      value: |
+        Please note: Pull requests for new features are **not accepted**. 
+        Use this form to suggest features only.
