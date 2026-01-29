@@ -8,11 +8,15 @@ env/
 .env
 
 config.json
+data/
 data/tickets.json
+data/blacklist.json
+blacklist_test.py
 
 logs/
 *.log
 .DS_Store
 
 .vscode/
+.pytest_cache/
 *.sqlite3
