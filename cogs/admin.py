@@ -11,6 +11,7 @@ from discord.ext import commands
 import logging
 import discord
 from utils import embeds
+from utils import tickets
 from utils.config import load_config
 from utils.permissions import is_admin
 from ui.views.TicketPanelView import TicketPanelView
@@ -86,6 +87,69 @@ class AdminOnly(commands.Cog):
         if isinstance(error, commands.CheckFailure):
             await handle_admin_checkfailure(ctx)
 
+    @commands.hybrid_command(
+        name="add_to_blacklist", description="Blacklists a member from using tickets and submitting reviews!"
+    )
+    @commands.guild_only()
+    @is_admin()
+    async def add_blacklist(self, ctx: commands.Context, member: discord.Member):
+        if member and member.id:
+            if member.bot:
+                await ctx.send(embed=embeds.NO_BOT_BLACKLIST, ephemeral=True)
+                return
+            elif member.id == ctx.author.id:
+                await ctx.send(embed=embeds.NO_SELF_BLACKLIST, ephemeral=True)
+                return
+            elif ctx.guild.get_role(self.bot_config.admin_role_id) in member.roles:
+                await ctx.send(embed=embeds.NO_ADMIN_BLACKLIST, ephemeral=True)
+                return
+
+            blacklisted = await tickets.add_blacklist(member.id)
+            embedtosend = embeds.create_embed(
+                title="***Member Successfully Blacklisted!***",
+                description=f"*{member.mention}* `has been added to the blacklist`\n`They won't be able to create tickets or submit reviews!`",
+                thumbnail=member.avatar.url if member.avatar else None
+            )
+            if blacklisted:
+                await ctx.send(embed=embedtosend)
+                botlogger.info(f"{ctx.author.name} ({ctx.author.id}) has blacklisted {member.name} ({member.id})")
+            else:
+                embedtosend = embeds.ALREADY_BLACKLISTED
+                await ctx.send(embed=embedtosend, ephemeral=True)
+
+    @add_blacklist.error
+    async def addblacklist_error(self, ctx: commands.Context, error):
+        if isinstance(error, commands.CheckFailure):
+            await handle_admin_checkfailure(ctx)
+
+    @commands.hybrid_command(
+        name="remove_from_blacklist", description="Removes a member from the blacklist, allowing them to create tickets and submit reveiws."
+    )
+    @is_admin()
+    async def remove_blacklist(self, ctx:commands.Context, member: discord.Member):
+        if member.bot:
+            await ctx.send(embed=embeds.BOT_REMOVE_BLACKLIST, ephemeral=True)
+            return
+        removed = await tickets.remove_blacklist(str(member.id))
+        if removed:
+            embedtosend = embeds.create_embed(
+                title="***Member removed from the blacklist!***",
+                description=f"*{member.mention}* `will be able to create tickets and submit reviews from now on!`",
+                thumbnail=member.avatar.url if member.avatar else None
+            )
+            botlogger.info(f"{ctx.author.name} ({ctx.author.id}) has removed {member.name} ({member.id}) from the blacklist.")
+        else:
+            embedtosend = embeds.create_embed(
+                "***This member is not blacklisted!***",
+                description=f"*{member.mention}* `is not in the blacklist`",
+                thumbnail=member.avatar.url if member.avatar else None
+            )
+        await ctx.send(embed=embedtosend)
+    
+    @remove_blacklist.error
+    async def removeblacklist_error(self, ctx: commands.Context, error):
+        if isinstance(error, commands.CheckFailure):
+            await handle_admin_checkfailure(ctx)
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(AdminOnly(bot))
