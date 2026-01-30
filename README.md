@@ -32,6 +32,7 @@ This bot is intended for **server owners with no coding experience** who want a 
 - Ticket moderation via buttons and commands
 - Ticket transcripts
 - Review and feedback system
+- Ability to blacklist members from creating tickets and submitting reviews
 - Welcome messages and auto role assignment (optional)
 - Fully customizable embeds
 - Role-based permissions
