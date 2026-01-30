@@ -341,3 +341,40 @@ NO_SELF_REMOVE = create_embed(
     description="`Nice try :)`",
     color=botconfig.default_embed_error_color
 )
+
+ALREADY_BLACKLISTED = create_embed(
+    title="***This member is already blacklisted!***",
+    description="`To remove them from the blacklist use the remove_from_blacklist command!`",
+    color=botconfig.default_embed_error_color
+)
+
+NO_BOT_BLACKLIST = create_embed(
+    title="***You cannot blacklist a bot!***",
+    description="`Next time try blacklisting a real discord member in your server!`",
+    color=botconfig.default_embed_error_color
+)
+
+NO_SELF_BLACKLIST = create_embed(
+    title="***You cannot blacklist Yourself!***",
+    description="`Self hate is not a good thing, you know..`",
+    color=botconfig.default_embed_error_color
+)
+
+NO_ADMIN_BLACKLIST = create_embed(
+    title="***You cannot blacklist an admin!***",
+    description="`Your fellow admins are good people..`",
+    color=botconfig.default_embed_error_color
+)
+
+BOT_REMOVE_BLACKLIST = create_embed(
+    title="***You cannot remove a bot from the blacklist!***",
+    description="`They shouldn't be there anyways..`",
+    color=botconfig.default_embed_error_color
+)
+
+BLACKLISTED = create_embed(
+    title="***I think I have some bad news for you!***",
+    description="`You are blacklisted by the server admins, you can't create tickets or submit reviews.`",
+    footer="Maybe you can try to appeal in some way?",
+    color=botconfig.default_embed_error_color
+)
