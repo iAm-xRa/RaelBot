@@ -82,6 +82,17 @@ async def add_blacklist(user_id: int | str):
                 json.dump(blacklisted, file, indent=4)
             return True
 
+async def remove_blacklist(user_id: int | str):
+    async with lock:
+        blacklisted: dict = await load_blacklist()
+        black_list: list = blacklisted.get("blacklisted", [])
+        if str(user_id) not in black_list or not user_id:
+            return False
+        black_list.remove(str(user_id))
+        with open(blacklist_path, "w", encoding="utf-8") as file:
+            json.dump(blacklisted, file, indent=4)
+        return True
+
 async def is_blacklisted(user_id: int | str):
     async with lock:
         blacklisted = await load_blacklist()
