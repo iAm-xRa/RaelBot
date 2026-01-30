@@ -32,6 +32,10 @@ class ReviewPanelView(discord.ui.View):
     async def review_btn(
         self, interaction: discord.Interaction, button: discord.Button
     ):
+        if await tickets.is_blacklisted(interaction.user.id):
+            await interaction.response.send_message(embed=embeds.BLACKLISTED, ephemeral=True)
+            return
+
         key = (
             interaction.guild.id if interaction.guild else None,
             interaction.user.id

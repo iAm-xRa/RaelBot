@@ -55,6 +55,10 @@ class TicketPanelView(discord.ui.View):
     async def create_ticket(
         self, interaction: discord.Interaction, button: discord.Button
     ):
+        if await tickets.is_blacklisted(interaction.user.id):
+            await interaction.response.send_message(embed=embeds.BLACKLISTED, ephemeral=True)
+            return
+
         if not self.selected_purpose:
             await interaction.response.send_message(
                 embed=embeds.MISSING_SELECT, ephemeral=True
