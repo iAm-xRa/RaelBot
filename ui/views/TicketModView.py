@@ -48,7 +48,7 @@ class TicketModView(discord.ui.View):
                     embd = embeds.create_embed(
                         title="***This ticket has been claimed***",
                         description=f"*The staff handling your ticket is {interaction.user.mention} !*",
-                        thumbnail=interaction.user.avatar.url,
+                        thumbnail=interaction.user.avatar.url if interaction.user.avatar else None,
                     )
                     await interaction.response.send_message(embed=embd)
                 else:
@@ -122,7 +122,7 @@ class TicketModView(discord.ui.View):
                         trnscrpt_embed = embeds.create_embed(
                             title="***Ticket Logged***",
                             timestamp=True,
-                            thumbnail=interaction.user.avatar.url,
+                            thumbnail=interaction.user.avatar.url if interaction.user.avatar else None,
                         )
                         trnscrpt_embed.add_field(
                             name="`Ticket Name`",
@@ -211,7 +211,7 @@ class TransferSelect(discord.ui.UserSelect):
                             embed=embeds.create_embed(
                                 title="***This ticket has been transfered !***",
                                 description=f"`New staff handling the ticket is: `{target_staff.mention}",
-                                thumbnail=target_staff.avatar.url,
+                                thumbnail=target_staff.avatar.url if interaction.user.avatar else None,
                             )
                         )
                     else:
