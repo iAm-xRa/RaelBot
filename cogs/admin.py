@@ -151,5 +151,21 @@ class AdminOnly(commands.Cog):
         if isinstance(error, commands.CheckFailure):
             await handle_admin_checkfailure(ctx)
 
+    @commands.hybrid_command(
+        name="help", description="Sends an embed that shows how the bot works."
+    )
+    @is_admin()
+    async def help_cmd(self, ctx:commands.Context):
+        if not ctx.interaction:
+            sorry_embed = embeds.PRFX_CMD_WARN
+            await ctx.send(embed=sorry_embed)
+            return
+        await ctx.send(embed=embeds.HELP, ephemeral=True)
+    
+    @help_cmd.error
+    async def removeblacklist_error(self, ctx: commands.Context, error):
+        if isinstance(error, commands.CheckFailure):
+            await handle_admin_checkfailure(ctx)
+
 async def setup(bot: commands.Bot):
     await bot.add_cog(AdminOnly(bot))

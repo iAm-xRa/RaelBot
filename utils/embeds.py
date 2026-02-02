@@ -378,3 +378,56 @@ BLACKLISTED = create_embed(
     footer="Maybe you can try to appeal in some way?",
     color=botconfig.default_embed_error_color
 )
+
+HELP = create_embed(
+    title="RaelBot — Admin Commands Help",
+    description=(
+        "RaelBot is a ticket and review management bot.\n"
+        "Below is a list of all administrator-only commands and their usage."
+    ),
+    fields=[
+        (
+            "/ping",
+            "Check if the bot is online and view its current latency.",
+            False
+        ),
+        (
+            "/create_embed",
+            "Create a custom embed and send it to a specified channel.\n"
+            "Required: channel, title, description\n"
+            "Optional: footer text",
+            False
+        ),
+        (
+            "/deploy_ticket_panel",
+            "Deploy the ticket creation panel allowing users to open tickets.",
+            False
+        ),
+        (
+            "/deploy_review_panel",
+            "Deploy the review panel allowing users to submit reviews.",
+            False
+        ),
+        (
+            "/add_to_blacklist <member>",
+            "Blacklist a member from creating tickets and submitting reviews.",
+            False
+        ),
+        (
+            "/remove_from_blacklist <member>",
+            "Remove a member from the blacklist and restore ticket and review access.",
+            False
+        ),
+        (
+            "/help",
+            "Display this help menu.",
+            False
+        ),
+        (
+            "Permissions",
+            "All commands listed above are restricted to administrators only.",
+            False
+        ),
+    ],
+    footer="RaelBot • Admin Help"
+)
