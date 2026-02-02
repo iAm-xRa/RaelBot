@@ -12,6 +12,7 @@ from discord.ext import commands
 from utils import tickets
 from utils import config
 from utils import embeds
+from utils import cooldowns
 from ui.modals.ReviewModal import ReviewModal
 
 botconfig = config.load_config()
@@ -20,9 +21,7 @@ botconfig = config.load_config()
 class ReviewPanelView(discord.ui.View):
     def __init__(self):
         super().__init__(timeout=None)
-        self.cooldown = commands.CooldownMapping.from_cooldown(
-            1, botconfig.rvw_cooldown * 60, commands.BucketType.default
-        )
+        self.cooldown = cooldowns.Cooldown(botconfig.rvw_cooldown * 60) # From minutes to seconds
 
     @discord.ui.button(
         label="Submit Review",
@@ -35,22 +34,14 @@ class ReviewPanelView(discord.ui.View):
         if await tickets.is_blacklisted(interaction.user.id):
             await interaction.response.send_message(embed=embeds.BLACKLISTED, ephemeral=True)
             return
-
-        key = (
-            interaction.guild.id if interaction.guild else None,
-            interaction.user.id
-        )
-        bucket = self.cooldown.get_bucket(key)
-        retry_after = bucket.update_rate_limit()
-
-        if retry_after:
+        user_id = interaction.user.id
+        if self.cooldown.is_on_cooldown(user_id):
             await interaction.response.send_message(
-                f"`You're on cooldown. Wait {retry_after:.1f}s before using this command again.`",
-                ephemeral=True,
+                content=f"`You're on cooldown. Wait {self.cooldown.get_time_remaining(user_id):.1f}s before using this again.`",
+                ephemeral=True
             )
             return
-
-        user_id = interaction.user.id
+        self.cooldown.set_last_interaction(user_id)
         count_user = await tickets.get_any_tickets_count_for_user(
             user_id=user_id
         )
