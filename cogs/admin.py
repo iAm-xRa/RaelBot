@@ -50,7 +50,7 @@ class AdminOnly(commands.Cog):
     @ping.error
     async def ping_error(self, ctx: commands.Context, error):
         if isinstance(error, commands.CheckFailure):
-            ping_error_embed = embeds.MISSING_PERM
+            ping_error_embed = embeds.MISSING_PERM.copy()
             ping_error_embed.description = "**Hey you are not an admin !**\n`But since I caught you anyways, pong.`"
             msg = await ctx.send(embed=ping_error_embed, ephemeral=True)
             await msg.delete(delay=5)
