@@ -167,5 +167,22 @@ class AdminOnly(commands.Cog):
         if isinstance(error, commands.CheckFailure):
             await handle_admin_checkfailure(ctx)
 
+    @commands.hybrid_command(
+        name="tickets_count", description="Sends the total amount of all tickets"
+    )
+    @is_admin()
+    async def tickets_count(self, ctx: commands.Context):
+        counts_embed = embeds.create_embed(
+            title="***Total tickets opened in this server!***",
+            description=f"`You have {await tickets.get_tickets_count()} tickets!`"
+        
+        )
+        await ctx.send(embed=counts_embed, ephemeral=True)
+
+    @tickets_count.error
+    async def tickets_count_error(self, ctx: commands.Context, error):
+        if isinstance(error, commands.CheckFailure):
+            await handle_admin_checkfailure(ctx)
+
 async def setup(bot: commands.Bot):
     await bot.add_cog(AdminOnly(bot))
