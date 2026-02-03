@@ -173,7 +173,7 @@ class AdminOnly(commands.Cog):
     @is_admin()
     async def tickets_count(self, ctx: commands.Context):
         counts_embed = embeds.create_embed(
-            title="***Total tickets opened in this server!***",
+            title="***Total tickets created in this server!***",
             description=f"`You have {await tickets.get_tickets_count()} tickets!`\n`Reminder: This command shows the count of all tickets ever created in your server\nThis can be wrong if some tickets data got corrupted.`"        
         )
         await ctx.send(embed=counts_embed)
@@ -189,10 +189,10 @@ class AdminOnly(commands.Cog):
     @is_admin()
     async def user_tickets_count(self, ctx: commands.Context, member: discord.Member):
         counts_embed = embeds.create_embed(
-            title=f"***Total tickets opened in this server by {member.mention}!***",
-            description=f"`{member.display_name} has {await tickets.get_any_tickets_count_for_user(member.id)} tickets!`\n`Reminder: This command shows the count of all tickets ever created in your server by a specific user\nThis can be wrong if some tickets data got corrupted.`"
+            title=f"***Total tickets created in this server by {member.display_name}!***",
+            description=f"`{member.display_name} created {await tickets.get_any_tickets_count_for_user(member.id)} tickets!`\n`Reminder: This command shows the count of all tickets ever created in your server by a specific user\nThis can be wrong if some tickets data got corrupted.`"
         )
-        await ctx.send(embed=counts_embed)
+        await ctx.send(embed=counts_embed, content=f"*Tickets created by: {member.mention}!*")
 
     @user_tickets_count.error
     async def user_tickets_count_error(self, ctx: commands.Context, error):
