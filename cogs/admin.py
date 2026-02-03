@@ -163,7 +163,7 @@ class AdminOnly(commands.Cog):
         await ctx.send(embed=embeds.HELP, ephemeral=True)
     
     @help_cmd.error
-    async def removeblacklist_error(self, ctx: commands.Context, error):
+    async def help_error(self, ctx: commands.Context, error):
         if isinstance(error, commands.CheckFailure):
             await handle_admin_checkfailure(ctx)
 
