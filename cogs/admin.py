@@ -174,7 +174,7 @@ class AdminOnly(commands.Cog):
     async def tickets_count(self, ctx: commands.Context):
         counts_embed = embeds.create_embed(
             title="***Total tickets opened in this server!***",
-            description=f"`You have {await tickets.get_tickets_count()} tickets!`"
+            description=f"`You have {await tickets.get_tickets_count()} tickets!`\nReminder: This command shows the count of all tickets ever created in your server\nThis can be wrong if some tickets data got corrupted."
         
         )
         await ctx.send(embed=counts_embed, ephemeral=True)
