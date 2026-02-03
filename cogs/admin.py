@@ -174,13 +174,28 @@ class AdminOnly(commands.Cog):
     async def tickets_count(self, ctx: commands.Context):
         counts_embed = embeds.create_embed(
             title="***Total tickets opened in this server!***",
-            description=f"`You have {await tickets.get_tickets_count()} tickets!`\nReminder: This command shows the count of all tickets ever created in your server\nThis can be wrong if some tickets data got corrupted."
-        
+            description=f"`You have {await tickets.get_tickets_count()} tickets!`\n`Reminder: This command shows the count of all tickets ever created in your server\nThis can be wrong if some tickets data got corrupted.`"        
         )
-        await ctx.send(embed=counts_embed, ephemeral=True)
+        await ctx.send(embed=counts_embed)
 
     @tickets_count.error
     async def tickets_count_error(self, ctx: commands.Context, error):
+        if isinstance(error, commands.CheckFailure):
+            await handle_admin_checkfailure(ctx)
+
+    @commands.hybrid_command(
+        name="user_tickets_count", description="Sends the total amount of all tickets ever created by a specific user."
+    )
+    @is_admin()
+    async def user_tickets_count(self, ctx: commands.Context, member: discord.Member):
+        counts_embed = embeds.create_embed(
+            title=f"***Total tickets opened in this server by {member.mention}!***",
+            description=f"`{member.display_name} has {await tickets.get_any_tickets_count_for_user(member.id)} tickets!`\n`Reminder: This command shows the count of all tickets ever created in your server by a specific user\nThis can be wrong if some tickets data got corrupted.`"
+        )
+        await ctx.send(embed=counts_embed)
+
+    @user_tickets_count.error
+    async def user_tickets_count_error(self, ctx: commands.Context, error):
         if isinstance(error, commands.CheckFailure):
             await handle_admin_checkfailure(ctx)
 
