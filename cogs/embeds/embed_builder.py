@@ -60,7 +60,7 @@ class EmbedBuilderCog(commands.Cog):
             )  # DMs not possible
             created_embed = embeds.create_embed(
                 title=title,
-                description=description,
+                description=description.replace("<newline>", "\n"),
                 footer=footer_text or self.bot_config.default_footer_text
             )
             try:
