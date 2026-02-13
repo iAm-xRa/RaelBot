@@ -22,7 +22,6 @@ class GeneralCommands(commands.Cog):
     )
     async def about_cmd(self, ctx: commands.Context):
         msg = await ctx.send(embed=embeds.ABOUT_EMBED)
-        await msg.delete(delay=180)
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(GeneralCommands(bot))
