@@ -379,6 +379,33 @@ BLACKLISTED = create_embed(
     color=botconfig.default_embed_error_color
 )
 
+ABOUT_EMBED = create_embed(
+    title="***Info about RaelBot!***",
+    description="*RaelBot is an open-source discord bot fully developed and designed by iAm-XRa on Github.\nThe purpose of RaelBot is to help server owners who need a good customizable ticket system in their server along with some helpful utilities!*",
+    fields=[
+        (
+            "`Github Repository link (source-code)`",
+            "[RaelBot.git](https://github.com/iAm-xRa/RaelBot)",
+            True
+        ),
+        (
+            "`Support`",
+            "Currently you can get support using Github issues regarding bugs, suggestions and help with troubleshooting.\nSoon RaelBot will have a dedicated support server!",
+            True
+        ),
+        (
+            "`Bot License`",
+            "[GNU GPL V3.0](https://www.gnu.org/licenses/gpl-3.0)",
+            False
+        ),
+        (
+            "`Notes`",
+            "```1. RaelBot is a solo project maintained only by iAm-XRa (a.k.a Ra).\n2. This software is provided 'as is', without warranty of any kind, express or implied. The author (iAm-XRa) shall not be held liable for any claims, damages, losses, or other liabilities arising from the use, misuse, or inability to use this software.\n3. Users are responsible for complying with Discord's Terms of Service and all applicable laws.```",
+            False
+        )
+    ]
+)
+
 HELP = create_embed(
     title="RaelBot — Admin Commands Help",
     description=(
@@ -424,8 +451,13 @@ HELP = create_embed(
             False
         ),
         (
+            "/about",
+            "Shows info about RaelBot.",
+            False
+        ),
+        (
             "Permissions",
-            "All commands listed above are restricted to administrators only.",
+            "All commands listed above are restricted to administrators only except for `/about`.",
             False
         ),
     ],

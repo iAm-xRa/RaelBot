@@ -60,6 +60,7 @@ class RaelBot(commands.Bot):
         botlogger.info("Starting setup_hook.")
         extensions = [
             "cogs.admin",
+            "cogs.general_commands",
             "cogs.embeds.embed_builder",
             "cogs.tickets.tickets",
             "cogs.tickets.inactivity",
