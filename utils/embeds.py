@@ -407,51 +407,51 @@ ABOUT_EMBED = create_embed(
 )
 
 HELP = create_embed(
-    title="RaelBot — Admin Commands Help",
+    title="RaelBot — Commands Help",
     description=(
-        "RaelBot is a ticket and review management bot.\n"
-        "Below is a list of all administrator-only commands and their usage."
+        "RaelBot is a ticket and review system bot.\n"
+        "Below is a list of all commands and their usage."
     ),
     fields=[
         (
-            "/ping",
+            "`/ping`",
             "Check if the bot is online and view its current latency.",
             False
         ),
         (
-            "/create_embed",
+            "`/create_embed`",
             "Create a custom embed and send it to a specified channel.\n"
             "Required: channel, title, description\n"
             "Optional: footer text",
             False
         ),
         (
-            "/deploy_ticket_panel",
+            "`/deploy_ticket_panel`",
             "Deploy the ticket creation panel allowing users to open tickets.",
             False
         ),
         (
-            "/deploy_review_panel",
+            "`/deploy_review_panel`",
             "Deploy the review panel allowing users to submit reviews.",
             False
         ),
         (
-            "/add_to_blacklist <member>",
+            "`/add_to_blacklist <member>`",
             "Blacklist a member from creating tickets and submitting reviews.",
             False
         ),
         (
-            "/remove_from_blacklist <member>",
+            "`/remove_from_blacklist <member>`",
             "Remove a member from the blacklist and restore ticket and review access.",
             False
         ),
         (
-            "/help",
+            "`/help`",
             "Display this help menu.",
             False
         ),
         (
-            "/about",
+            "`/about`",
             "Shows info about RaelBot.",
             False
         ),
@@ -461,5 +461,5 @@ HELP = create_embed(
             False
         ),
     ],
-    footer="RaelBot • Admin Help"
+    footer="RaelBot • Help"
 )
